@@ -1,12 +1,18 @@
 import Head from "next/head";
 import Banner from "../components/Banner";
+import MediumCard from "../components/MediumCard";
 import Header from "../components/Header";
 import SmallCard from "../components/SmallCard";
+import LargCard from "../components/LargCard";
+import Footer from "../components/Footer";
 
 const database_adress =
-  "https://airbnb-clone-d2585-default-rtdb.europe-west1.firebasedatabase.app/popular.json";
+  "https://airbnb-clone-d2585-default-rtdb.europe-west1.firebasedatabase.app/";
 
-export default function Home({ exploreData }) {
+const popularEndPoint = "popular.json";
+const cardsDataEndPoint = "card_data.json";
+
+export default function Home({ exploreData, cardsData }) {
   return (
     <div className="">
       <Head>
@@ -35,17 +41,41 @@ export default function Home({ exploreData }) {
             })}
           </div>
         </section>
+        <section>
+          <h2 className="text-4xl font-semibold py-8">Live Anywhere</h2>
+          {/* Pull some data from a server - API endpoints*/}
+          <div className="flex overflow-scroll space-x-3 scrollbar-hide p-3 -ml-3">
+            {cardsData?.map((item, index) => {
+              return (
+                <MediumCard key={index} img={item.img} title={item.title} />
+              );
+            })}
+          </div>
+        </section>
+        <LargCard
+          img="https://links.papareact.com/4cj"
+          title="The Greatest Outdoors"
+          description="Wishlists curated by Airbnb."
+          buttonText="Get Inspired"
+        />
       </main>
+      <Footer />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const exploreData = await fetch(database_adress).then((res) => res.json());
+  const exploreData = await fetch(database_adress + popularEndPoint).then(
+    (res) => res.json()
+  );
+  const cardsData = await fetch(database_adress + cardsDataEndPoint).then(
+    (res) => res.json()
+  );
 
   return {
     props: {
       exploreData,
+      cardsData,
     },
   };
 }
