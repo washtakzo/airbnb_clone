@@ -28,3 +28,15 @@ a {
     background: black;
   }
 }
+
+@tailwind components;
+
+@layer components {
+  .footer__grid__element {
+    @apply space-y-4 text-xs text-gray-800;
+  }
+  .search__filter__button {
+    @apply border text-center rounded-full hover:shadow-lg cursor-pointer 
+    active:scale-95 active:bg-gray-100 transition transform duration-100 ease-out px-4 py-2;
+  }
+}
