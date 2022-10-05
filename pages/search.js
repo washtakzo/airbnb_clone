@@ -4,12 +4,37 @@ import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
-function Search() {
+const dataBaseUrl =
+  "https://airbnb-clone-d2585-default-rtdb.europe-west1.firebasedatabase.app/";
+const searchResultEndPoint = "search_results.json";
+
+function Search({ searchResults }) {
   const router = useRouter();
-  const { location, startDate, endDate, noOfGuests } = router.query;
-  const formatedStartData = format(new Date(startDate), "dd MMMM yy");
-  const formatedEndData = format(new Date(endDate), "dd MMMM yy");
-  const rangeDate = `${formatedStartData} - ${formatedEndData}`;
+  const [location, setLocation] = React.useState("");
+  const [startDate, setstartDate] = React.useState("");
+  const [endDate, setEndDate] = React.useState("");
+  const [noOfGuests, setnoOfGuests] = React.useState("");
+  const [rangeDate, setRangeDate] = React.useState("");
+  const [formatedStartDate, setFormatedStartDate] = React.useState("");
+  const [formatedEndtDate, setFormatedEndDate] = React.useState("");
+
+  React.useEffect(() => {
+    //Prise en compte des données lorsqu'elles sont
+    //récupérées de router.query car les données ne sont pas dispo
+    //de suite et cette méthode évite les erreur undefined sur ces données
+    if (!router.isReady) return;
+    setLocation(router.query.location);
+    setstartDate(router.query.startDate);
+    setEndDate(router.query.endDate);
+    setnoOfGuests(router.query.noOfGuests);
+    setFormatedStartDate(
+      format(new Date(router.query.startDate), "dd MMMM yy")
+    );
+    setFormatedEndDate(format(new Date(router.query.endDate), "dd MMMM yy"));
+    setRangeDate(`${formatedStartDate} - ${formatedEndtDate}`);
+    //La dépendance startDate (ou endDate) sert à pouvoir setFormatedStartDate
+    //avec les dates en question car une set les data ne sont dispo qu'au prochain re-render
+  }, [router.isReady, startDate, endDate]);
   return (
     <div>
       <Header
@@ -38,3 +63,14 @@ function Search() {
 }
 
 export default Search;
+
+export async function getServerSideProps() {
+  const searchResults = await fetch(dataBaseUrl + searchResultEndPoint).then(
+    (res) => res.json()
+  );
+  return {
+    props: {
+      searchResults,
+    },
+  };
+}
