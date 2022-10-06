@@ -4,6 +4,7 @@ import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import InfoCard from "../components/InfoCard";
+import Map from "../components/Map";
 
 const dataBaseUrl =
   "https://airbnb-clone-d2585-default-rtdb.europe-west1.firebasedatabase.app/";
@@ -86,6 +87,9 @@ function Search({ searchResults }) {
             )}
           </div>
         </section>
+        <section className="hidden xl:inline-flex min-w-[600px]">
+          <Map searchResults={searchResults} />
+        </section>
       </main>
       <Footer />
     </div>
@@ -98,6 +102,7 @@ export async function getServerSideProps() {
   const searchResults = await fetch(dataBaseUrl + searchResultEndPoint).then(
     (res) => res.json()
   );
+
   return {
     props: {
       searchResults,
