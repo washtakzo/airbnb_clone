@@ -21,7 +21,7 @@ function InfoCard({ img, location, title, description, star, price, total }) {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-5 hover:scale-125"
+            className="h-5 hover:scale-125 transition duration-200 ease-out"
           >
             <path
               strokeLinecap="round"
