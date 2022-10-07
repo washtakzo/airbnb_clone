@@ -3,8 +3,8 @@ import React from "react";
 
 function InfoCard({ img, location, title, description, star, price, total }) {
   return (
-    <div className="flex cursor-pointer py-7 pl-2 pr-4 hover:opacity-80 border-b first:border-t hover:shadow-lg transition duration-200 ease-out">
-      <div className="relative w-40 h-24 flex-shrink-0 md:w-80 md:h-52">
+    <div className="flex flex-col sm:flex-row cursor-pointer py-7 pl-2 pr-4 hover:opacity-80 border-b first:border-t hover:shadow-lg transition duration-200 ease-out">
+      <div className="relative w-[90%] aspect-video sm:aspect-auto  sm:w-60 sm:h-40 flex-shrink-0 md:w-80 md:h-52 self-center">
         <Image
           src={img}
           layout="fill"
@@ -13,7 +13,7 @@ function InfoCard({ img, location, title, description, star, price, total }) {
         />
       </div>
       <div className="flex flex-col flex-grow pl-5">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center pt-4 sm:pt-0">
           <p className="text-xs text-gray-500">{location}</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
